@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 
+
 TOPIC = "Herzfrequenz"
 BROKER_ADRESS = "localhost"
 PORT = 1883
@@ -26,3 +27,4 @@ class mqttSend(object):
         client.connect(BROKER_ADRESS, PORT)
         client.publish(TOPIC, payload, QOS)
         client.loop()
+        
