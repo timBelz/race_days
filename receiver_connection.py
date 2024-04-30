@@ -17,14 +17,14 @@ class mqttSend(object):
         
         client.publish(TOPIC, data, QOS)
         client.loop()
+
         
-    def __del_(self):
+    def __del__(self):
         print("Nothing to delete. Existing.")
         
     def update(self, payload):
-        print("Payload: ", payload)
         client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
         client.connect(BROKER_ADRESS, PORT)
         client.publish(TOPIC, payload, QOS)
         client.loop()
-        
+        return payload
