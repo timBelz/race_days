@@ -9,7 +9,7 @@ port = 1883
 
 # Initialize InfluxDB client
 influxdb_client = InfluxDBClient(url="http://localhost:8086", 
-                                 token="352VYvG1n5N17ayto3Fqc2ixcoDBdxhmPTt3WyHvn1eg1QJ6e1Ha0QkWEEAJ5JQL3VnbxrBjVLRpAdWXz6xCAA==", 
+                                 token="q-W0vsPdX-8vzQINpZ4b8OXq82WRwmQmMhbYSY_2flk2gJWhJcZu0nzNihm8TGJel38b6NEjM0t56yO7bxEVMg==", 
                                  org="Race Days"
                                  )
 
