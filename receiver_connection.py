@@ -1,30 +1,40 @@
 import paho.mqtt.client as mqtt
+from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client.client.write_api import SYNCHRONOUS
+from datetime import datetime, timezone
 
+# MQTT Broker Configuration
+broker_address = "192.168.178.202"
+port = 1883
 
-TOPIC = "Herzfrequenz"
-BROKER_ADRESS = "localhost"
-PORT = 1883
-QOS = 1
+# InfluxDB Configuration
+url = 'http://localhost:8086/orgs/08762263b5ca87d3'
+token = '352VYvG1n5N17ayto3Fqc2ixcoDBdxhmPTt3WyHvn1eg1QJ6e1Ha0QkWEEAJ5JQL3VnbxrBjVLRpAdWXz6xCAA=='
+org = 'Race Days'
+bucket = 'sensor_viz'
 
-class mqttSend(object):
-    def __init__(self):
-        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-        client.connect(BROKER_ADRESS, PORT)
-        self.observer = None
-        
-        print("Connect to MQTT Broker: " + BROKER_ADRESS)
-        data = "{TEST_DATA}"
-        
-        client.publish(TOPIC, data, QOS)
-        client.loop()
+# Initialize InfluxDB client
+influxdb_client = InfluxDBClient(url=url, token=token, org=org)
 
-        
-    def __del__(self):
-        print("Nothing to delete. Existing.")
-        
-    def update(self, payload):
-        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-        client.connect(BROKER_ADRESS, PORT)
-        client.publish(TOPIC, payload, QOS)
-        client.loop()
-        return payload
+# Callback function for each sensor data type
+def on_message(client, userdata, message):
+    # Create a new point and write it to InfluxDB
+    with influxdb_client.write_api(write_options=SYNCHRONOUS) as write_api:
+        p = Point(message.topic) \
+            .field("value", float(message.payload.decode('utf-8'))) \
+            .time(datetime.now(timezone.utc), WritePrecision.MS)
+        write_api.write(bucket=bucket, record=p)
+
+# Initialize MQTT client and set callbacks
+client = mqtt.Client()
+
+client.on_message = on_message
+
+client.connect(broker_address, port)
+
+# Subscribe to topics
+client.subscribe("herzfrequenz")
+client.subscribe("leistung")
+
+# Start MQTT client
+client.loop_forever()
