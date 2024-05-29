@@ -2,7 +2,7 @@
 
 mqtt:<br>
   - broker_adress: "your_broker_adress"<br>
-  - post: "your_port"<br>
+  - port: "your_port"<br>
 
 influxdb:<br>
   - url: "your_db_url"<br>
