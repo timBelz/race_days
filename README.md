@@ -1,14 +1,14 @@
-*Add some credentials.yaml*
+## Add some credentials.yaml<br>
 
-mqtt:
-  broker_adress: "your_broker_adress"
-  post: "your_port"
+mqtt:<br>
+  - broker_adress: "your_broker_adress"<br>
+  - post: "your_port"<br>
 
-influxdb:
-  url: "your_db_url"
-  token: "your_api_token"
-  org: "your_organisation"
+influxdb:<br>
+  - url: "your_db_url"<br>
+  - token: "your_api_token"<br>
+  - org: "your_organisation"<br>
 
-Run the Script for as long as you receive MQTT data.
+## Run the Script for as long as you receive MQTT data.
 
 Open your DB URL and enjoy.
