@@ -1,0 +1,20 @@
+# .gitignore
+
+# Ignore Python compiled files
+__pycache__/
+*.py[cod]
+
+# Ignore log files
+*.log
+
+# Ignore credentials file
+credentials.yaml
+
+# Ignore virtual environment
+venv/
+
+# Ignore any .env files
+*.env
+
+#Ignore .vscode
+.vscode/

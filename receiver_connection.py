@@ -1,16 +1,24 @@
+import yaml
 import paho.mqtt.client as mqtt
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 from datetime import datetime, timezone
 
+# Load credentials from YAML file
+with open("credentials.yaml", 'r') as stream:
+    try:
+        credentials = yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+        print(exc)
+
 # MQTT Broker Configuration
-broker_address = "192.168.178.28"
-port = 1883
+broker_address = credentials['mqtt']['broker_address']
+port = credentials['mqtt']['port']
 
 # Initialize InfluxDB client
-influxdb_client = InfluxDBClient(url="http://localhost:8086", 
-                                 token="Vsx_ntOBe0LrzrbPaRvfNweulgDwOIaRDnuGOihkDPjfqCk12ThYHuT7rTXSQFGAsmhl4N4EW_eYNK5wTp4uQg==", 
-                                 org="Race Days"
+influxdb_client = InfluxDBClient(url=credentials['influxdb']['url'], 
+                                 token=credentials['influxdb']['token'], 
+                                 org=credentials['influxdb']['org']
                                  )
 
 # Callback function for each sensor data type
